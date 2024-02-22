@@ -30,36 +30,36 @@ public:
 
 public: 
 
-	UPROPERTY(VisibleAnywhere, Category = "MySettings|Components")
+	UPROPERTY(VisibleAnywhere, Category = "MySettings | Components")
 	class UCameraComponent* cameraComp;
 
-	UPROPERTY(VisibleAnywhere, Category = "MySettings|Components")
+	UPROPERTY(VisibleAnywhere, Category = "MySettings | Components")
 	class UStaticMeshComponent* headMesh;
 
-	UPROPERTY(VisibleAnywhere, Category = "MySettings|Components")
+	UPROPERTY(VisibleAnywhere, Category = "MySettings | Components")
 	class UMotionControllerComponent* leftMotion;
 
-	UPROPERTY(EditDefaultsOnly, Category = "MySettings|Components")
+	UPROPERTY(VisibleAnywhere, Category = "MySettings | Components")
 	class USkeletalMeshComponent* leftHand;
 
-	UPROPERTY(VisibleAnywhere, Category = "MySettings|Components")
+	UPROPERTY(VisibleAnywhere, Category = "MySettings | Components")
 	class UMotionControllerComponent* rightMotion;
 
-	UPROPERTY(EditDefaultsOnly, Category = "MySettings|Components")
+	UPROPERTY(VisibleAnywhere,  Category = "MySettings | Components")
 	class USkeletalMeshComponent* rightHand;
 
 	
 	/* ----------------------------------------------------------- */
-	UPROPERTY(EditAnywhere, Category = "MySettings|Inputs")
+	UPROPERTY(EditAnywhere, Category = "MySettings | Inputs")
 	class UInputMappingContext* vrMapping;
 
-	UPROPERTY(EditAnywhere, Category = "MySettings|Inputs")
+	UPROPERTY(EditAnywhere, Category = "MySettings | Inputs")
 	TArray <class UInputAction*>  vrInputs;
 
-	UPROPERTY(EditAnywhere, Category = "MySettings|Inputs")
+	UPROPERTY(EditAnywhere, Category = "MySettings | Inputs")
 	class UInputAction* ia_rightThumbStickAxis;
 
-	UPROPERTY(EditAnywhere, Category = "MySettings|Inputs")
+	UPROPERTY(EditAnywhere, Category = "MySettings | Inputs")
 	class UInputAction* ia_leftThumbStickAxis;
 
 private:
