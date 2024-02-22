@@ -74,15 +74,18 @@ void AVRPlayer_M::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 	UEnhancedInputComponent* enhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent);
-
+	UE_LOG(LogTemp, Warning, TEXT("1111111111111111111"));
 	if (enhancedInputComponent != nullptr)
 	{
-		// ia_rightThumbStickAxis : 오른손 컨트롤러 조이스틱을 통한 움직임
-		enhancedInputComponent->BindAction(vrInputs[0], ETriggerEvent::Triggered, this, &AVRPlayer_M::Move);
-		enhancedInputComponent->BindAction(vrInputs[0], ETriggerEvent::Completed, this, &AVRPlayer_M::Move);
-		// ia_leftThumbStickAxis : 왼손 컨트롤러의 조이스틱을 통한 회전 (틱 느낌으로 회전하려고함)
-		enhancedInputComponent->BindAction(vrInputs[1], ETriggerEvent::Triggered, this, &AVRPlayer_M::Rotate);
-		enhancedInputComponent->BindAction(vrInputs[1], ETriggerEvent::Completed, this, &AVRPlayer_M::Rotate);
+		UE_LOG(LogTemp, Warning, TEXT("2222222222222"));
+		// ia_rightThumbStickAxis : 오른손 컨트롤러 조이스틱을 통한 회전(틱 느낌으로 회전하는게 나을지?) (마우스로 회전 가능)
+		enhancedInputComponent->BindAction(vrInputs[0], ETriggerEvent::Triggered, this, &AVRPlayer_M::Rotate);
+		enhancedInputComponent->BindAction(vrInputs[0], ETriggerEvent::Completed, this, &AVRPlayer_M::Rotate);
+		UE_LOG(LogTemp, Warning, TEXT("333333333333333333"));
+		// ia_leftThumbStickAxis : 왼손 컨트롤러의 조이스틱을 통한 움직임 (키보드 WASD)
+		enhancedInputComponent->BindAction(vrInputs[1], ETriggerEvent::Triggered, this, &AVRPlayer_M::Move);
+		enhancedInputComponent->BindAction(vrInputs[1], ETriggerEvent::Completed, this, &AVRPlayer_M::Move);
+		UE_LOG(LogTemp, Warning, TEXT("444444444444"));
 	}
 }
 
