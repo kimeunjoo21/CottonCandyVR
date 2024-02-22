@@ -8,8 +8,10 @@
 #include <Components/SkeletalMeshComponent.h>
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include <HeadMountedDisplayFunctionLibrary.h>
+#include "GrabComponent.h"
 
-
+// UE_LOG(LogTemp, Warning, TEXT("1111111111111111111"));
 // Sets default values
 AVRPlayer_M::AVRPlayer_M()
 {
@@ -28,16 +30,17 @@ AVRPlayer_M::AVRPlayer_M()
 
 	leftHand = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Left Hand Mesh"));
 	leftHand->SetupAttachment(leftMotion);
-	//leftHand->SetRelativeRotation(FRotator(0,0,0));
-
+	leftHand->SetRelativeRotation(FRotator(-90,0,-90));
+	// (Pitch=-90.000000,Yaw=0.000000,Roll=-90.000000)
 	rightMotion = CreateDefaultSubobject<UMotionControllerComponent>(TEXT("Right Motion Controller"));
 	rightMotion->SetupAttachment(rightMotion);
 	rightMotion->MotionSource = FName("Right");
 
 	rightHand = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Right Hand Mesh"));
 	rightHand->SetupAttachment(rightMotion);
-	// rightHand->SetRelativeRotation(FRotator(90, 0, 90));
+	rightHand->SetRelativeRotation(FRotator(90, 0, 90));
 	// (Pitch = 90.000000, Yaw = 0.000000, Roll = 90.000000)
+
 
 	
 
@@ -59,6 +62,9 @@ void AVRPlayer_M::BeginPlay()
 			subsys->AddMappingContext(vrMapping, 0); // 뒤에 0 값?
 		}
 	}
+
+	// HMD 장비의 기준점 설정
+	UHeadMountedDisplayFunctionLibrary::SetTrackingOrigin(EHMDTrackingOrigin::Type::Eye);
 }
 
 // Called every frame
@@ -74,18 +80,20 @@ void AVRPlayer_M::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 	UEnhancedInputComponent* enhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent);
-	UE_LOG(LogTemp, Warning, TEXT("1111111111111111111"));
+	
 	if (enhancedInputComponent != nullptr)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("2222222222222"));
+		
 		// ia_rightThumbStickAxis : 오른손 컨트롤러 조이스틱을 통한 회전(틱 느낌으로 회전하는게 나을지?) (마우스로 회전 가능)
 		enhancedInputComponent->BindAction(vrInputs[0], ETriggerEvent::Triggered, this, &AVRPlayer_M::Rotate);
 		enhancedInputComponent->BindAction(vrInputs[0], ETriggerEvent::Completed, this, &AVRPlayer_M::Rotate);
-		UE_LOG(LogTemp, Warning, TEXT("333333333333333333"));
+		
 		// ia_leftThumbStickAxis : 왼손 컨트롤러의 조이스틱을 통한 움직임 (키보드 WASD)
 		enhancedInputComponent->BindAction(vrInputs[1], ETriggerEvent::Triggered, this, &AVRPlayer_M::Move);
 		enhancedInputComponent->BindAction(vrInputs[1], ETriggerEvent::Completed, this, &AVRPlayer_M::Move);
-		UE_LOG(LogTemp, Warning, TEXT("444444444444"));
+
+		grabComp->SetupPlayerInputComponent(enhancedInputComponent, vrInputs);
+		
 	}
 }
 

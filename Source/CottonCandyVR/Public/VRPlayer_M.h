@@ -62,6 +62,10 @@ public:
 	UPROPERTY(EditAnywhere, Category = "MySettings | Inputs")
 	class UInputAction* ia_leftThumbStickAxis;
 
+
+	UPROPERTY(VisibleAnywhere, Category = "MySettings|Components")
+	class UGrabComponent* grabComp;
+
 private:
 	void Move(const FInputActionValue& val);
 	void Rotate(const FInputActionValue& val);
