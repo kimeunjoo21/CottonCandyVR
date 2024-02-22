@@ -8,7 +8,8 @@ public class CottonCandyVR : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", 
+			"EnhancedInput", "HeadMountedDisplay", "XRBase", "UMG", "Niagara" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
