@@ -42,6 +42,8 @@ AVRPlayer_M::AVRPlayer_M()
 	// (Pitch = 90.000000, Yaw = 0.000000, Roll = 90.000000)
 
 
+	grabComp = CreateDefaultSubobject<UGrabComponent>(TEXT("Grab Component"));
+
 	
 
 }
