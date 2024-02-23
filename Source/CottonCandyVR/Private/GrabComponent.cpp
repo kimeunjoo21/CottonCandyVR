@@ -37,17 +37,22 @@ void UGrabComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 	// ...
 }
 
-void UGrabComponent::SetupPlayerInputComponent(class UEnhancedInputComponent* PlayerInputComponent, TArray<class UInputAction*> inputs)
+void UGrabComponent::SetupPlayerInputComponent(class UEnhancedInputComponent* playerInputComponent, TArray<class UInputAction*> inputs)
 {
-	//PlayerInputComponent->BindAction(inputs[2], ETriggerEvent::Started, this, &UGrabComponent::GrabObject);
-	//PlayerInputComponent->BindAction(inputs[2], ETriggerEvent::Completed, this, &UGrabComponent::ReleaseObject);
+	playerInputComponent->BindAction(inputs[2], ETriggerEvent::Started, this, &UGrabComponent::GrabObject);
+	UE_LOG(LogTemp, Warning, TEXT("444444444"));
+	//playerInputComponent->BindAction(inputs[2], ETriggerEvent::Completed, this, &UGrabComponent::ReleaseObject);
+
+	
 }
 
 void UGrabComponent::GrabObject()
 {
+	UE_LOG(LogTemp, Warning, TEXT("55555555"));
 	// 1. SweepTrace를 이용한 방식
 	if (currentObject == nullptr)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("66666666"));
 		FHitResult hitInfo;
 		FVector originLoc = player->rightHand->GetComponentLocation();
 		FCollisionObjectQueryParams objectParams;
@@ -56,12 +61,15 @@ void UGrabComponent::GrabObject()
 		FCollisionQueryParams params;
 		params.AddIgnoredActor(player);
 
-		bool bChecked = GetWorld()->SweepSingleByObjectType(hitInfo, originLoc, originLoc, FQuat::Identity, objectParams, FCollisionShape::MakeSphere(30), params);
-
+		bool bChecked = GetWorld()->SweepSingleByObjectType(hitInfo, originLoc, originLoc, FQuat::Identity, objectParams, FCollisionShape::MakeSphere(500), params);
+		//UE_LOG(LogTemp, Warning, TEXT("%s(%d) - Hit Actor: %s"), *FString(__FUNCTION__), __LINE__, *hitInfo.GetActor()->GetActorNameOrLabel());
+		//UE_LOG(LogTemp, Warning, TEXT("1111111111111111111"));
 		if (bChecked)
 		{
-			currentObject = Cast<APickUpActor>(hitInfo.GetActor());
-			//UE_LOG(LogTemp, Warning, TEXT("%s(%d) - Hit Actor: %s"), *FString(__FUNCTION__), __LINE__, *hitInfo.GetActor()->GetActorNameOrLabel());
+		//UE_LOG(LogTemp, Warning, TEXT("%s(%d) - Hit Actor: %s"), *FString(__FUNCTION__), __LINE__, *hitInfo.GetActor()->GetActorNameOrLabel());
+		//UE_LOG(LogTemp, Warning, TEXT("22222222222221222"));
+		currentObject = Cast<APickUpActor>(hitInfo.GetActor());
+			
 
 			if (currentObject != nullptr)
 			{

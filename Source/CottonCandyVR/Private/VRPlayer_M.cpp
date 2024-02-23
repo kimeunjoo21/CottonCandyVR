@@ -33,7 +33,7 @@ AVRPlayer_M::AVRPlayer_M()
 	leftHand->SetRelativeRotation(FRotator(-90,0,-90));
 	// (Pitch=-90.000000,Yaw=0.000000,Roll=-90.000000)
 	rightMotion = CreateDefaultSubobject<UMotionControllerComponent>(TEXT("Right Motion Controller"));
-	rightMotion->SetupAttachment(rightMotion);
+	rightMotion->SetupAttachment(RootComponent);
 	rightMotion->MotionSource = FName("Right");
 
 	rightHand = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Right Hand Mesh"));
@@ -83,6 +83,7 @@ void AVRPlayer_M::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	
 	if (enhancedInputComponent != nullptr)
 	{
+		grabComp->SetupPlayerInputComponent(enhancedInputComponent, vrInputs);
 		
 		// ia_rightThumbStickAxis : 오른손 컨트롤러 조이스틱을 통한 회전(틱 느낌으로 회전하는게 나을지?) (마우스로 회전 가능)
 		enhancedInputComponent->BindAction(vrInputs[0], ETriggerEvent::Triggered, this, &AVRPlayer_M::Rotate);
@@ -92,7 +93,12 @@ void AVRPlayer_M::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		enhancedInputComponent->BindAction(vrInputs[1], ETriggerEvent::Triggered, this, &AVRPlayer_M::Move);
 		enhancedInputComponent->BindAction(vrInputs[1], ETriggerEvent::Completed, this, &AVRPlayer_M::Move);
 
-		grabComp->SetupPlayerInputComponent(enhancedInputComponent, vrInputs);
+		//enhancedInputComponent->BindAction(vrInputs[2], ETriggerEvent::Started, this, &UGrabComponent::GrabObject);
+
+		//enhancedInputComponent->BindAction(vrInputs[2], ETriggerEvent::Started, this, &UGrabComponent::GrabObject);
+		//enhancedInputComponent->BindAction(vrInputs[2], ETriggerEvent::Completed, this, &UGrabComponent::ReleaseObject);
+	
+		
 		
 	}
 }

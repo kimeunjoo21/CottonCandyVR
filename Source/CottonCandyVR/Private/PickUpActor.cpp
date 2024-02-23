@@ -15,6 +15,7 @@ APickUpActor::APickUpActor()
 	boxComp = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Component"));
 	SetRootComponent(boxComp);
 	boxComp->SetCollisionProfileName(FName("PickUpActor"));
+	UE_LOG(LogTemp, Warning, TEXT("PickUpActor"));
 	//boxComp->SetBoxExtent(FVector(50));
 	boxComp->SetSimulatePhysics(true);
 	boxComp->SetEnableGravity(true);

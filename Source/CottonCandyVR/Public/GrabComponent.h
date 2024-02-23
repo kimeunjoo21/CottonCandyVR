@@ -25,7 +25,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	void SetupPlayerInputComponent(class UEnhancedInputComponent* playerInputComponent, TArray<class UInputAction*> inputs);
-private:
+public:
 	class AVRPlayer_M* player;
 	class APickUpActor* currentObject;
 	FVector currentLocation_rightCon;
