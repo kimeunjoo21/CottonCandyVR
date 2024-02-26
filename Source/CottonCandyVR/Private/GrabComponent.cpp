@@ -46,7 +46,7 @@ void UGrabComponent::SetupPlayerInputComponent(class UEnhancedInputComponent* pl
 {
 	playerInputComponent->BindAction(inputs[2], ETriggerEvent::Started, this, &UGrabComponent::GrabObject);
 	UE_LOG(LogTemp, Warning, TEXT("444444444"));
-	//playerInputComponent->BindAction(inputs[2], ETriggerEvent::Completed, this, &UGrabComponent::ReleaseObject);
+	playerInputComponent->BindAction(inputs[2], ETriggerEvent::Completed, this, &UGrabComponent::ReleaseObject);
 
 	
 }
