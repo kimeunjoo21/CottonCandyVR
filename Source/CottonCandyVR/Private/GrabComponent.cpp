@@ -25,7 +25,7 @@ void UGrabComponent::BeginPlay()
 	Super::BeginPlay();
 
 	// ...
-	
+	player = GetOwner<AVRPlayer_M>();
 }
 
 
