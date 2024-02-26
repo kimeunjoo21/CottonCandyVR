@@ -34,7 +34,12 @@ void UGrabComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+	// 오른손 콘트롤러의 위치 변화량을 저장한다.
+	previousLocation_rightCon = currentLocation_rightCon;
+	currentLocation_rightCon = player->rightHand->GetComponentLocation();
+
+	FVector deltaDirection = currentLocation_rightCon - previousLocation_rightCon;
+	//UE_LOG(LogTemp, Warning, TEXT("delta length: %f"), deltaDirection.Length());
 }
 
 void UGrabComponent::SetupPlayerInputComponent(class UEnhancedInputComponent* playerInputComponent, TArray<class UInputAction*> inputs)
@@ -61,7 +66,7 @@ void UGrabComponent::GrabObject()
 		FCollisionQueryParams params;
 		params.AddIgnoredActor(player);
 
-		bool bChecked = GetWorld()->SweepSingleByObjectType(hitInfo, originLoc, originLoc, FQuat::Identity, objectParams, FCollisionShape::MakeSphere(500), params);
+		bool bChecked = GetWorld()->SweepSingleByObjectType(hitInfo, originLoc, originLoc, FQuat::Identity, objectParams, FCollisionShape::MakeSphere(200), params);
 		//UE_LOG(LogTemp, Warning, TEXT("%s(%d) - Hit Actor: %s"), *FString(__FUNCTION__), __LINE__, *hitInfo.GetActor()->GetActorNameOrLabel());
 		//UE_LOG(LogTemp, Warning, TEXT("1111111111111111111"));
 		if (bChecked)
@@ -69,14 +74,14 @@ void UGrabComponent::GrabObject()
 		//UE_LOG(LogTemp, Warning, TEXT("%s(%d) - Hit Actor: %s"), *FString(__FUNCTION__), __LINE__, *hitInfo.GetActor()->GetActorNameOrLabel());
 		//UE_LOG(LogTemp, Warning, TEXT("22222222222221222"));
 		currentObject = Cast<APickUpActor>(hitInfo.GetActor());
-			
+		UE_LOG(LogTemp, Warning, TEXT("7777777"));
 
 			if (currentObject != nullptr)
 			{
 				currentObject->OnGrabbed(player->rightHand);
-
+				UE_LOG(LogTemp, Warning, TEXT("8888888"));
 				// 오른손 컨트롤러에 진동 효과를 준다.
-				// player->pc->PlayHapticEffect(grabHaptic, EControllerHand::Right);
+				//player->pc->PlayHapticEffect(grabHaptic, EControllerHand::Right);
 			}
 		}
 	}

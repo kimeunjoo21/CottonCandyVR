@@ -10,6 +10,9 @@
 #include "EnhancedInputSubsystems.h"
 #include <HeadMountedDisplayFunctionLibrary.h>
 #include "GrabComponent.h"
+#include "InputAction.h"
+//박스컴포넌트
+#include<Components/BoxComponent.h>
 
 // UE_LOG(LogTemp, Warning, TEXT("1111111111111111111"));
 // Sets default values
