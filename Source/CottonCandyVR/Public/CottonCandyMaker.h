@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "SugarSpoon.generated.h"
+#include "CottonCandyMaker.generated.h"
 
 UCLASS()
-class COTTONCANDYVR_API ASugarSpoon : public AActor
+class COTTONCANDYVR_API ACottonCandyMaker : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ASugarSpoon();
+	ACottonCandyMaker();
 
 protected:
 	// Called when the game starts or when spawned
@@ -23,24 +23,12 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+public:
 
 	UPROPERTY(VisibleAnywhere, Category="MySettings")
 	class UBoxComponent* boxComp;
 
 	UPROPERTY(VisibleAnywhere, Category = "MySettings")
 	class UStaticMeshComponent* meshComp;
-
-
-	
-
-	UPROPERTY(EditAnywhere, Category = "MySettings")
-	FVector offsetLocation;
-
-	UPROPERTY(EditAnywhere, Category = "MySettings")
-	FRotator offsetRotation;
-
-	void OnGrabbed(class USkeletalMeshComponent* handMeshComp);
-	void OnReleased(FVector deltaDir);
-
 
 };

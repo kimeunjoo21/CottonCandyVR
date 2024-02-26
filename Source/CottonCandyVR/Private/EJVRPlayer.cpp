@@ -89,7 +89,37 @@ void AEJVRPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 	if (enhancedInputComponent != nullptr)
 	{
+		enhancedInputComponent->BindAction(vrInputs[2], ETriggerEvent::Triggered, this, &AEJVRPlayer::Move);
+		enhancedInputComponent->BindAction(vrInputs[2], ETriggerEvent::Completed, this, &AEJVRPlayer::Move);
+		enhancedInputComponent->BindAction(vrInputs[3], ETriggerEvent::Triggered, this, &AEJVRPlayer::Rotate);
+		enhancedInputComponent->BindAction(vrInputs[3], ETriggerEvent::Completed, this, &AEJVRPlayer::Rotate);
+
+		grabComp->SetupPlayerInputComponent(enhancedInputComponent, vrInputs);
+
 	}
+
+
+}
+
+void AEJVRPlayer::Move(const FInputActionValue& val)
+{
+	FVector2D dir = val.Get<FVector2D>();
+
+	// 현재 바라보고 있는 방향으로 이동한다.
+	FVector originVec = FVector(dir.Y, dir.X, 0);
+	FVector newVec = GetTransform().TransformVector(originVec);
+
+	AddMovementInput(newVec);
+
+}
+
+void AEJVRPlayer::Rotate(const FInputActionValue& val)
+{
+
+	FVector2D dir = val.Get<FVector2D>();
+
+	// 입력받은 방향으로 회전한다.
+	AddControllerYawInput(dir.X);
 
 }
 

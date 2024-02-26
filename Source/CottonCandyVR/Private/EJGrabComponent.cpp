@@ -54,13 +54,14 @@ void UEJGrabComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 
 void UEJGrabComponent::SetupPlayerInputComponent(UEnhancedInputComponent* PlayerInputComponent, TArray<class UInputAction*> inputs)
 {
-	PlayerInputComponent->BindAction(inputs[0], ETriggerEvent::Started, this, &UEJGrabComponent::GrabObject);
-	PlayerInputComponent->BindAction(inputs[0], ETriggerEvent::Completed, this, &UEJGrabComponent::ReleaseObject);
+	PlayerInputComponent->BindAction(inputs[1], ETriggerEvent::Started, this, &UEJGrabComponent::GrabObject);
+	PlayerInputComponent->BindAction(inputs[1], ETriggerEvent::Completed, this, &UEJGrabComponent::ReleaseObject);
 
 }
 
 void UEJGrabComponent::GrabObject()
 {
+	
 	if (currentObj == nullptr) {
 		// 1. SweepTrace를 이용한 방식
 		FHitResult hitInfo;
@@ -72,11 +73,12 @@ void UEJGrabComponent::GrabObject()
 		params.AddIgnoredActor(player);
 
 		bool bChecked = GetWorld()->SweepSingleByObjectType(hitInfo, originLoc, originLoc, FQuat::Identity, objectParams, FCollisionShape::MakeSphere(30), params);
+		DrawDebugSphere(GetWorld(), player->rightHand->GetComponentLocation(), 20, 30, FColor::Green, false, 0.5f, 0, 0.2f);
 
 		if (bChecked)
 		{
 			currentObj = Cast<ASugarSpoon>(hitInfo.GetActor());
-			//UE_LOG(LogTemp, Warning, TEXT("%s(%d) - Hit Actor: %s"), *FString(__FUNCTION__), __LINE__, *hitInfo.GetActor()->GetActorNameOrLabel());
+			UE_LOG(LogTemp, Warning, TEXT("%s(%d) - Hit Actor: %s"), *FString(__FUNCTION__), __LINE__, *hitInfo.GetActor()->GetActorNameOrLabel());
 
 			if (currentObj != nullptr)
 			{
@@ -91,5 +93,20 @@ void UEJGrabComponent::GrabObject()
 
 void UEJGrabComponent::ReleaseObject()
 {
+
+	// 현재 쥐고있는 물체가 있는지 확인한다.
+	if (currentObj != nullptr) {
+
+		//오른손 컨트롤러의 위치 변화량을 계산한다.
+		//FVector deltaDirection = currentLocation_rightCon - previousLocation_rightCon;
+
+		//오른손 콘트롤러의 회전 변화량을 계산한다.
+		//FQuat deltaRotation = currentRotation_rightCon - previousRotation_rightCon;
+		//FQuat deltaRotation = currentRotation_rightCon * previousRotation_rightCon.Inverse();
+
+		currentObj->OnReleased(player->GetActorLocation());
+		currentObj = nullptr;
+	}
+	
 }
 

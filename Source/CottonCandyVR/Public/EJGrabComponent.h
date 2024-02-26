@@ -36,6 +36,11 @@ private:
 	FQuat previousRotation_rightCon;
 
 
+	UPROPERTY(EditAnywhere, Category = "MySettings")
+	float throwPower = 500;
+
+
+
 	void GrabObject();
 	void ReleaseObject();
 

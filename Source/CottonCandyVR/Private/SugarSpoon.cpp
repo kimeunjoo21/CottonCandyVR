@@ -5,6 +5,7 @@
 #include "Components/BoxComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/SkeletalMeshComponent.h"
+#include <../../../../../../../Source/Runtime/Engine/Classes/Components/SceneComponent.h>
 
 
 // Sets default values
@@ -27,6 +28,10 @@ ASugarSpoon::ASugarSpoon()
 	meshComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	//meshComp->SetRelativeLocation(FVector(0, 0, -50));
 
+// 	sugarScene->CreateDefaultSubobject<USceneComponent>(TEXT("Spoon Tip"));
+// 	sugarScene->SetupAttachment(RootComponent);
+	//sugarScene->SetRelativeLocation(FVector(0,0,51));
+
 }
 
 // Called when the game starts or when spawned
@@ -46,6 +51,7 @@ void ASugarSpoon::Tick(float DeltaTime)
 
 void ASugarSpoon::OnGrabbed(USkeletalMeshComponent* handMeshComp)
 {
+	UE_LOG(LogTemp, Warning, TEXT("OnGravved"));
 	boxComp->SetSimulatePhysics(false);
 	// 1. 잡을 당시의 간격 위치 값(월드 좌표 기준)을 그대로 유지하면서 붙이도록 설정한다.
 	FAttachmentTransformRules attachRules = FAttachmentTransformRules::KeepWorldTransform;
@@ -53,7 +59,13 @@ void ASugarSpoon::OnGrabbed(USkeletalMeshComponent* handMeshComp)
 
 }
 
-void ASugarSpoon::OnReleased(FVector deltaDir, float throwThreshold, FVector deltaRot)
+void ASugarSpoon::OnReleased(FVector deltaDir)
 {
+	// 1.특정 액터로부터 자신을 분리한다.
+	FDetachmentTransformRules detachRules = FDetachmentTransformRules::KeepWorldTransform;
+	DetachFromActor(detachRules);
+	//2. 떨어진 물체의 물리효과를 켜준다.
+	boxComp->SetSimulatePhysics(true);
+
 }
 
