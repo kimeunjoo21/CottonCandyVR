@@ -162,6 +162,7 @@ void AVRPlayer_M::UIInteraction(const FInputActionValue& val)
 void AVRPlayer_M::ShowUILine()
 {
 	bIsShowLine = true;
+	UE_LOG(LogTemp, Warning, TEXT("0001111"));
 
 }
 
@@ -171,6 +172,7 @@ void AVRPlayer_M::DrawLineTrajectory(FVector startLoc, FVector dir, float throwP
 	float interval = time / (float)term;
 	throwPoints.Empty();
 	throwPoints.Add(startLoc);
+	UE_LOG(LogTemp, Warning, TEXT("0002222"));
 
 	for (int32 i = 0; i < term; i++)
 	{
@@ -184,14 +186,16 @@ void AVRPlayer_M::DrawLineTrajectory(FVector startLoc, FVector dir, float throwP
 		// 각 구간마다의 충돌 여부를 체크
 		FHitResult hitInfo;
 		FVector startVec = throwPoints[throwPoints.Num() - 1];
-
+		UE_LOG(LogTemp, Warning, TEXT("0003333"));
 		if (GetWorld()->LineTraceSingleByChannel(hitInfo, startVec, curLocation, ECC_Visibility))
 		{
 			throwPoints.Add(hitInfo.ImpactPoint);
+			UE_LOG(LogTemp, Warning, TEXT("0004444"));
 			break;
 		}
 
 		throwPoints.Add(curLocation);
+		UE_LOG(LogTemp, Warning, TEXT("0005555"));
 	}
 
 
@@ -200,10 +204,10 @@ void AVRPlayer_M::DrawLineTrajectory(FVector startLoc, FVector dir, float throwP
 		for (int32 i = 0; i < throwPoints.Num() - 1; i++)
 		{
 			//DebugLine을 이용해서 그리기
-			//DrawDebugLine(GetWorld(), throwPoints[i], throwPoints[i + 1], FColor::Red, false, 0, 0, 2);
+			DrawDebugLine(GetWorld(), throwPoints[i], throwPoints[i + 1], FColor::Red, false, 0, 0, 2);
 
 			// NiagaraSystem을 이용해서 그리기
-			UNiagaraDataInterfaceArrayFunctionLibrary::SetNiagaraArrayVector(this->lineFX, FName("PointArray"), throwPoints);
+			//UNiagaraDataInterfaceArrayFunctionLibrary::SetNiagaraArrayVector(this->lineFX, FName("PointArray"), throwPoints);
 			UE_LOG(LogTemp, Warning, TEXT("0000000000"));
 			/*lineInstance->lineFX->SetVisibility(true);
 			lineInstance->SetActorLocation(throwPoints[throwPoints.Num() - 1]);*/
@@ -216,5 +220,8 @@ void AVRPlayer_M::DrawLineTrajectory(FVector startLoc, FVector dir, float throwP
 void AVRPlayer_M::UnShowUILine()
 {
 	bIsShowLine = false;
+
+	/*TArray<FVector> initVector;
+	initVector.SetNum(2);*/
 }
 
