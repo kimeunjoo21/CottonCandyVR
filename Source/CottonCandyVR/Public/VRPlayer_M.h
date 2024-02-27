@@ -66,7 +66,26 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "MySettings|Components")
 	class UGrabComponent* grabComp;
 
+	UPROPERTY(VisibleAnywhere, Category = "MySettings|Components")
+	class UNiagaraComponent* lineFX;
+
+	UPROPERTY(EditAnywhere, Category="MySettings")
+	float power = 300.0f;
+
+	UPROPERTY(EditAnywhere, Category = "MySettings")
+	float throwTime = 5.0f;
+
+	UPROPERTY(EditAnywhere, Category = "MySettings")
+	int32 throwTerm = 50;
+
 private:
 	void Move(const FInputActionValue& val);
 	void Rotate(const FInputActionValue& val);
+	void UIInteraction(const FInputActionValue& val);
+	void ShowUILine();
+	void DrawLineTrajectory(FVector startLoc, FVector dir, float throwPower, float time, int32 term);
+	void UnShowUILine();
+	bool bIsShowLine = false;
+	TArray<FVector> throwPoints;
+	class AUILineActor* lineInstance;
 };
