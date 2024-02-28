@@ -36,11 +36,20 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "MySettings")
 	class AEJVRPlayer* player;
 
+	UPROPERTY(EditAnywhere)
+	AActor* maker;
+
+	float ratio = 0;
+
+	bool bMoveStart = false;
+
+private:
+
 	void Scoop();
 	void ScoopOut();
 
 	UFUNCTION()
 	void OnScoop(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
-
+	void Move();
 };

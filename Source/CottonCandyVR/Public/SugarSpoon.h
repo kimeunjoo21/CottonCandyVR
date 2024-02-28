@@ -30,15 +30,14 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "MySettings")
 	class UStaticMeshComponent* meshComp;
 
-
 	
-
 	UPROPERTY(EditAnywhere, Category = "MySettings")
 	FVector offsetLocation;
 
 	UPROPERTY(EditAnywhere, Category = "MySettings")
 	FRotator offsetRotation;
 
+public:
 	void OnGrabbed(class USkeletalMeshComponent* handMeshComp);
 	void OnReleased(FVector deltaDir);
 

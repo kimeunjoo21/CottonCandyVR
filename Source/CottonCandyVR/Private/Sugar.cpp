@@ -5,6 +5,8 @@
 #include <../../../../../../../Source/Runtime/Engine/Classes/Components/SphereComponent.h>
 #include "SugarSpoon.h"
 #include "EJVRPlayer.h"
+#include "CottonCandyMaker.h"
+#include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/GameplayStatics.h>
 // Sets default values
 ASugar::ASugar()
 {
@@ -36,6 +38,8 @@ void ASugar::BeginPlay()
 	player = GetOwner<AEJVRPlayer>();
 	
 	sphereComp->OnComponentBeginOverlap.AddDynamic(this, &ASugar::OnScoop);
+
+	maker = UGameplayStatics::GetActorOfClass(GetWorld(), ACottonCandyMaker::StaticClass());
 }
 
 // Called every frame
@@ -43,6 +47,7 @@ void ASugar::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if(bMoveStart) Move();
 }
 
 
@@ -53,7 +58,8 @@ void ASugar::Scoop()
 
 void ASugar::ScoopOut()
 {
-
+	bMoveStart = false;
+	Destroy();
 }
 
 void ASugar::OnScoop(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -61,8 +67,22 @@ void ASugar::OnScoop(UPrimitiveComponent* OverlappedComponent, AActor* OtherActo
 	FAttachmentTransformRules attachRules = FAttachmentTransformRules::SnapToTargetNotIncludingScale;
 
 	UE_LOG(LogTemp,Warning,TEXT("555"));
-	AttachToComponent(player->rightHand, attachRules, FName("GrabPoint"));
+	//AttachToComponent(player->rightHand, attachRules, FName("GrabPoint"));
 	sphereComp->SetSimulatePhysics(false);
+
+	bMoveStart = true;
+
+}
+
+void ASugar::Move()
+{
+	FVector floating = maker->GetActorLocation() + FVector(0, 0, 15);
+	
+	ratio += GetWorld()->GetDeltaSeconds() * 0.1;
+	if (ratio > 1) ratio = 1;
+
+	FVector moveToMaker = FMath::Lerp(GetActorLocation(), floating, ratio);
+	SetActorLocation(moveToMaker);
 
 }
 

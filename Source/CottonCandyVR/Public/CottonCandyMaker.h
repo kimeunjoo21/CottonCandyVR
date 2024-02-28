@@ -31,4 +31,18 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "MySettings")
 	class UStaticMeshComponent* meshComp;
 
+	UPROPERTY(EditAnywhere, Category = "MySettings")
+	TSubclassOf<class ACottonCandyActor> cottonCandyActor;
+
+	UPROPERTY(EditAnywhere)
+	AActor* cotton;
+	UPROPERTY(EditAnywhere)
+	AActor* sugarSpoon;
+
+public:
+	UFUNCTION()
+	void OnOverlap(UPrimitiveComponent* abc, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	//class ACottonCandyActor* cottonCandy;
+
 };
