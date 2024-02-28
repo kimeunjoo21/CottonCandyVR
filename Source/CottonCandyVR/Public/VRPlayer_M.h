@@ -63,10 +63,10 @@ public:
 	class UInputAction* ia_leftThumbStickAxis;
 
 
-	UPROPERTY(VisibleAnywhere, Category = "MySettings|Components")
+	UPROPERTY(VisibleAnywhere, Category = "MySettings | Components")
 	class UGrabComponent* grabComp;
 
-	UPROPERTY(VisibleAnywhere, Category = "MySettings|Components")
+	UPROPERTY(VisibleAnywhere, Category = "MySettings | Components")
 	class UNiagaraComponent* lineFX;
 
 	UPROPERTY(EditAnywhere, Category="MySettings")

@@ -50,7 +50,10 @@ AVRPlayer_M::AVRPlayer_M()
 
 	grabComp = CreateDefaultSubobject<UGrabComponent>(TEXT("Grab Component"));
 
-	
+	lineFX = CreateDefaultSubobject<UNiagaraComponent>(TEXT("Line Effect"));
+	lineFX->SetupAttachment(rightMotion);
+	lineFX->SetVisibility(false);
+
 
 }
 
@@ -90,7 +93,7 @@ void AVRPlayer_M::Tick(float DeltaTime)
 	{
 		UMotionControllerComponent* rightMotionCon = this->rightMotion;
 		if (rightMotionCon != nullptr)
-		{
+		{	
 			FVector handLocation = rightMotionCon->GetComponentLocation();
 			FVector direction = rightMotionCon->GetForwardVector();
 
@@ -204,13 +207,18 @@ void AVRPlayer_M::DrawLineTrajectory(FVector startLoc, FVector dir, float throwP
 		for (int32 i = 0; i < throwPoints.Num() - 1; i++)
 		{
 			//DebugLine을 이용해서 그리기
-			DrawDebugLine(GetWorld(), throwPoints[i], throwPoints[i + 1], FColor::Red, false, 0, 0, 2);
+			//DrawDebugLine(GetWorld(), throwPoints[i], throwPoints[i + 1], FColor::Red, false, 0, 0, 2);
 
 			// NiagaraSystem을 이용해서 그리기
-			//UNiagaraDataInterfaceArrayFunctionLibrary::SetNiagaraArrayVector(this->lineFX, FName("PointArray"), throwPoints);
+			lineFX->SetVisibility(true);
+			UNiagaraDataInterfaceArrayFunctionLibrary::SetNiagaraArrayVector(this->lineFX, FName("PointArray"), throwPoints);
 			UE_LOG(LogTemp, Warning, TEXT("0000000000"));
-			/*lineInstance->lineFX->SetVisibility(true);
-			lineInstance->SetActorLocation(throwPoints[throwPoints.Num() - 1]);*/
+			//lineInstance->lineFX->SetVisibility(true);
+			//lineInstance->SetActorLocation(throwPoints[throwPoints.Num() - 1]);
+			
+			
+			// lineInstance->SetActorLocation(throwPoints[throwPoints.Num() - 1]);
+		
 		}
 	}
 
@@ -220,6 +228,7 @@ void AVRPlayer_M::DrawLineTrajectory(FVector startLoc, FVector dir, float throwP
 void AVRPlayer_M::UnShowUILine()
 {
 	bIsShowLine = false;
+	lineFX->SetVisibility(false);
 
 	/*TArray<FVector> initVector;
 	initVector.SetNum(2);*/
