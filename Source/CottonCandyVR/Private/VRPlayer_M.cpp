@@ -103,6 +103,7 @@ void AVRPlayer_M::Tick(float DeltaTime)
 			DrawLineTrajectory(handLocation, direction, power, throwTime, throwTerm);
 		}
 	}
+
 }
 
 // Called to bind functionality to input
@@ -131,6 +132,8 @@ void AVRPlayer_M::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	
 		enhancedInputComponent->BindAction(vrInputs[3], ETriggerEvent::Triggered, this, &AVRPlayer_M::ShowUILine);
 		enhancedInputComponent->BindAction(vrInputs[3], ETriggerEvent::Completed, this, &AVRPlayer_M::UnShowUILine);
+
+		enhancedInputComponent->BindAction(vrInputs[4], ETriggerEvent::Triggered, this, &AVRPlayer_M::ShowMenuUI);
 
 		
 	}
@@ -232,5 +235,17 @@ void AVRPlayer_M::UnShowUILine()
 
 	/*TArray<FVector> initVector;
 	initVector.SetNum(2);*/
+}
+
+void AVRPlayer_M::ShowMenuUI()
+{
+	if (bIsShowMenuUI == false)
+	{
+		bIsShowMenuUI = true;
+	}
+	else if(bIsShowMenuUI == true)
+	{
+		bIsShowMenuUI = false;
+	}
 }
 

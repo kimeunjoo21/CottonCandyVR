@@ -88,4 +88,7 @@ private:
 	bool bIsShowLine = false;
 	TArray<FVector> throwPoints;
 	class AUILineActor* lineInstance;
+
+	void ShowMenuUI();
+	bool bIsShowMenuUI = false;
 };
