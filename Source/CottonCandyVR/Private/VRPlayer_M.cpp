@@ -16,6 +16,7 @@
 #include "UILineActor.h"
 #include "NiagaraComponent.h"
 #include "NiagaraDataInterfaceArrayFunctionLibrary.h"
+#include "Components/WidgetInteractionComponent.h"
 
 // UE_LOG(LogTemp, Warning, TEXT("1111111111111111111"));
 // Sets default values
@@ -130,10 +131,10 @@ void AVRPlayer_M::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		//enhancedInputComponent->BindAction(vrInputs[2], ETriggerEvent::Started, this, &UGrabComponent::GrabObject);
 		//enhancedInputComponent->BindAction(vrInputs[2], ETriggerEvent::Completed, this, &UGrabComponent::ReleaseObject);
 	
-		enhancedInputComponent->BindAction(vrInputs[3], ETriggerEvent::Triggered, this, &AVRPlayer_M::ShowUILine);
-		enhancedInputComponent->BindAction(vrInputs[3], ETriggerEvent::Completed, this, &AVRPlayer_M::UnShowUILine);
+		enhancedInputComponent->BindAction(vrInputs[3], ETriggerEvent::Started, this, &AVRPlayer_M::ShowUILine);
+		//enhancedInputComponent->BindAction(vrInputs[3], ETriggerEvent::Completed, this, &AVRPlayer_M::UnShowUILine);
 
-		// enhancedInputComponent->BindAction(vrInputs[4], ETriggerEvent::Triggered, this, &AVRPlayer_M::ShowMenuUI);
+		enhancedInputComponent->BindAction(vrInputs[4], ETriggerEvent::Triggered, this, &AVRPlayer_M::ShowMenuUI);
 
 		
 	}
@@ -167,8 +168,23 @@ void AVRPlayer_M::UIInteraction(const FInputActionValue& val)
 
 void AVRPlayer_M::ShowUILine()
 {
-	bIsShowLine = true;
-	UE_LOG(LogTemp, Warning, TEXT("0001111"));
+	if(bIsShowLine == false)
+	{
+		bIsShowLine = true;
+		UE_LOG(LogTemp, Warning, TEXT("0001111"));
+
+		/*if (bIsShowLine == true &&)
+		{
+		}*/
+	}
+
+	else if (bIsShowLine == true)
+	{
+		bIsShowLine = false;
+		lineFX->SetVisibility(false);
+	}
+
+	
 
 }
 
@@ -199,7 +215,7 @@ void AVRPlayer_M::DrawLineTrajectory(FVector startLoc, FVector dir, float throwP
 			UE_LOG(LogTemp, Warning, TEXT("0004444"));
 			break;
 		}
-
+		
 		throwPoints.Add(curLocation);
 		UE_LOG(LogTemp, Warning, TEXT("0005555"));
 	}
@@ -242,10 +258,28 @@ void AVRPlayer_M::ShowMenuUI()
 	if (bIsShowMenuUI == false)
 	{
 		bIsShowMenuUI = true;
+		UE_LOG(LogTemp, Warning, TEXT("trueMenu"));
 	}
 	else if(bIsShowMenuUI == true)
 	{
 		bIsShowMenuUI = false;
+		UE_LOG(LogTemp, Warning, TEXT("falseMenu"));
 	}
 }
+
+
+void AVRPlayer_M::ClickLeftMouseButtonPress()
+{
+	// 키보드 버튼을 누른 효과를 줄 때
+	// widgetPointerRight->PressKey(EKeys::Y);
+
+	// 마우스 버튼을 누른 효과를 줄 때
+	//widgetPointerRight->PressPointerKey(EKeys::LeftMouseButton);
+}
+
+void AVRPlayer_M::ClickLeftMouseButtonRelease()
+{
+	// widgetPointerRight->ReleasePointerKey(EKeys::LeftMouseButton);
+}
+
 

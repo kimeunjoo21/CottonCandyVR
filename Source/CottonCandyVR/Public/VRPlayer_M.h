@@ -62,12 +62,20 @@ public:
 	UPROPERTY(EditAnywhere, Category = "MySettings | Inputs")
 	class UInputAction* ia_leftThumbStickAxis;
 
+	UPROPERTY(EditAnywhere, Category = "MySettings | Inputs")
+	class UInputAction* ia_leftButtonY;
 
+	/* ----------------------------------------------------------- */
 	UPROPERTY(VisibleAnywhere, Category = "MySettings | Components")
 	class UGrabComponent* grabComp;
 
 	UPROPERTY(VisibleAnywhere, Category = "MySettings | Components")
 	class UNiagaraComponent* lineFX;
+
+	UPROPERTY(VisibleAnywhere, Category = "MySettings | Components")
+	class UWidgetInteractionComponent* widgetPointerLeft;
+
+
 
 	UPROPERTY(EditAnywhere, Category="MySettings")
 	float power = 300.0f;
@@ -91,4 +99,7 @@ private:
 
 	void ShowMenuUI();
 	bool bIsShowMenuUI = false;
+
+	void ClickLeftMouseButtonPress();
+	void ClickLeftMouseButtonRelease();
 };
