@@ -6,7 +6,7 @@
 #include <../../../../../../../Source/Runtime/Engine/Classes/Components/SphereComponent.h>
 #include <../../../../../../../Source/Runtime/Engine/Classes/Components/StaticMeshComponent.h>
 #include "SugarSpoon.h"
-#include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/GameplayStatics.h>
+#include <Kismet/GameplayStatics.h>
 
 
 // Sets default values
@@ -19,14 +19,17 @@ ACottonCandyActor::ACottonCandyActor()
 	// 충돌체
 	compSphere = CreateDefaultSubobject<USphereComponent>(TEXT("SPHERE"));
 	SetRootComponent(compSphere);
-	compSphere->SetSphereRadius(13);
+	compSphere->SetSphereRadius(3);
 	compSphere->SetCollisionProfileName(TEXT("BlockAll"));
 
 	// 모양
 	compMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MESH"));
 	compMesh->SetupAttachment(RootComponent);
-	compMesh->SetRelativeScale3D(FVector(0.26f));
+	compMesh->SetRelativeScale3D(FVector(0.1f));
 	compMesh->SetCollisionProfileName(TEXT("NoCollision"));
+
+	spoon  = Cast<ASugarSpoon>(UGameplayStatics::GetActorOfClass(GetWorld(), ASugarSpoon::StaticClass()));
+	
 
 }
 
@@ -35,14 +38,17 @@ void ACottonCandyActor::BeginPlay()
 {
 	Super::BeginPlay();
 
+	//player = Cast<AEJVRPlayer>(UGameplayStatics::GetPlayerPawn(GetWorld(),0));
 	compSphere->SetSimulatePhysics(false);
 	FAttachmentTransformRules attachRules = FAttachmentTransformRules::SnapToTargetNotIncludingScale;
 
-	AActor* sugarSpoon = UGameplayStatics::GetActorOfClass(GetWorld(), ASugarSpoon::StaticClass());
-	if (sugarSpoon != nullptr) {
+
+
+	if (spoon != nullptr) {
 		
-		ASugarSpoon* bar = Cast<ASugarSpoon>(sugarSpoon);
-		AttachToActor(bar, attachRules);
+		//ASugarSpoon* bar = Cast<ASugarSpoon>(sugarSpoon);
+		AttachToComponent(spoon->sugarScene, attachRules);
+		//AttachToActor(bar, attachRules);
 	}
 	
 }
@@ -51,6 +57,20 @@ void ACottonCandyActor::BeginPlay()
 void ACottonCandyActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+
+	previousRotation_rightCon = currentRotation_rightCon;
+	//currentRotation_rightCon = player->rightHand->GetComponentQuat();
+
+
+
+	radiusBigger += FVector(0.001f);
+	UE_LOG(LogTemp,Warning,TEXT("%f"),radiusBigger.Length());
+	compMesh->SetRelativeScale3D(radiusBigger);
+}
+
+void ACottonCandyActor::SetupPlayerInputComponent(class UEnhancedInputComponent* PlayerInputComponent, TArray<class UInputAction*> inputs)
+{
 
 }
 

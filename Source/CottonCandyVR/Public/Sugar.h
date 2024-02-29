@@ -33,8 +33,6 @@ public:
 
 	UPROPERTY(VisibleAnywhere, Category = "MySettings")
 	class ASugarSpoon* sugarSpoon;
-	UPROPERTY(VisibleAnywhere, Category = "MySettings")
-	class AEJVRPlayer* player;
 
 	UPROPERTY(EditAnywhere)
 	AActor* maker;

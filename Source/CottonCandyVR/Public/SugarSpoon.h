@@ -30,7 +30,10 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "MySettings")
 	class UStaticMeshComponent* meshComp;
 
+	UPROPERTY(VisibleAnywhere, Category = "MySettings")
+	class USceneComponent* sugarScene;
 	
+
 	UPROPERTY(EditAnywhere, Category = "MySettings")
 	FVector offsetLocation;
 

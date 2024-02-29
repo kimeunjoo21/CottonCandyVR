@@ -29,6 +29,7 @@ ACottonCandyMaker::ACottonCandyMaker()
 	{
 		cottonCandyActor = tempCandy.Class;
 	}
+	
 }
 
 // Called when the game starts or when spawned
@@ -38,8 +39,10 @@ void ACottonCandyMaker::BeginPlay()
 	
 	boxComp->OnComponentBeginOverlap.AddDynamic(this, &ACottonCandyMaker::OnOverlap);
 
-	cotton = UGameplayStatics::GetActorOfClass(GetWorld(), ACottonCandyActor::StaticClass());
+	//cotton = UGameplayStatics::GetActorOfClass(GetWorld(), ACottonCandyActor::StaticClass());
 	sugarSpoon = UGameplayStatics::GetActorOfClass(GetWorld(), ASugarSpoon::StaticClass());
+	spoon = Cast<ASugarSpoon>(sugarSpoon);
+
 }
 
 // Called every frame
@@ -54,7 +57,11 @@ void ACottonCandyMaker::OnOverlap(UPrimitiveComponent* abc, AActor* OtherActor, 
 	if (OtherActor->GetName().Contains(TEXT("SugarSpoon")))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("SpawnActor"));
-		GetWorld()->SpawnActor<ACottonCandyActor>(cottonCandyActor, sugarSpoon->GetActorLocation(), sugarSpoon->GetActorRotation());
+
+
+		FVector spoonTipLoc = spoon->sugarScene->GetComponentLocation();
+		FRotator spoonTipRot = spoon->sugarScene->GetRelativeRotation();		
+		GetWorld()->SpawnActor<ACottonCandyActor>(cottonCandyActor, spoonTipLoc, spoonTipRot);
 		
 	}
 

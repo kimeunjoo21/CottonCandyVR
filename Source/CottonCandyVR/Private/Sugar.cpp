@@ -4,7 +4,6 @@
 #include "Sugar.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Components/SphereComponent.h>
 #include "SugarSpoon.h"
-#include "EJVRPlayer.h"
 #include "CottonCandyMaker.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/GameplayStatics.h>
 // Sets default values
@@ -28,6 +27,7 @@ ASugar::ASugar()
 	meshComp->SetWorldScale3D(FVector(0.165f));
 	meshComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
+	
 }
 
 // Called when the game starts or when spawned
@@ -35,7 +35,6 @@ void ASugar::BeginPlay()
 {
 	Super::BeginPlay();
 
-	player = GetOwner<AEJVRPlayer>();
 	
 	sphereComp->OnComponentBeginOverlap.AddDynamic(this, &ASugar::OnScoop);
 
@@ -67,11 +66,11 @@ void ASugar::OnScoop(UPrimitiveComponent* OverlappedComponent, AActor* OtherActo
 	FAttachmentTransformRules attachRules = FAttachmentTransformRules::SnapToTargetNotIncludingScale;
 
 	UE_LOG(LogTemp,Warning,TEXT("555"));
-	//AttachToComponent(player->rightHand, attachRules, FName("GrabPoint"));
 	sphereComp->SetSimulatePhysics(false);
 
 	bMoveStart = true;
 
+	
 }
 
 void ASugar::Move()

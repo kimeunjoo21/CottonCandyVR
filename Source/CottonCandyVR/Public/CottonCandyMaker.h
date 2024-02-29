@@ -39,6 +39,10 @@ public:
 	UPROPERTY(EditAnywhere)
 	AActor* sugarSpoon;
 
+	UPROPERTY(VisibleAnywhere, Category = "MySettings")
+	class ASugarSpoon* spoon;
+
+
 public:
 	UFUNCTION()
 	void OnOverlap(UPrimitiveComponent* abc, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
