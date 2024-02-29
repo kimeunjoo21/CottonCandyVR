@@ -5,8 +5,8 @@
 #include "Components/BoxComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "Engine/Scene.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Components/SceneComponent.h>
-
 
 // Sets default values
 ASugarSpoon::ASugarSpoon()
@@ -28,9 +28,9 @@ ASugarSpoon::ASugarSpoon()
 	meshComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	//meshComp->SetRelativeLocation(FVector(0, 0, -50));
 
-// 	sugarScene->CreateDefaultSubobject<USceneComponent>(TEXT("Spoon Tip"));
-// 	sugarScene->SetupAttachment(RootComponent);
-	//sugarScene->SetRelativeLocation(FVector(0,0,51));
+	sugarScene = CreateDefaultSubobject<USceneComponent>(TEXT("Spoon Tip"));
+	sugarScene->SetupAttachment(meshComp);
+	sugarScene->SetRelativeLocation(FVector(0,0,51));
 
 }
 
@@ -68,4 +68,5 @@ void ASugarSpoon::OnReleased(FVector deltaDir)
 	boxComp->SetSimulatePhysics(true);
 
 }
+
 

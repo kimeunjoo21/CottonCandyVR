@@ -7,6 +7,8 @@
 #include "EJVRPlayer.h"
 #include "SugarSpoon.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "CottonCandyActor.h"
+#include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/GameplayStatics.h>
 
 
 // Sets default values for this component's properties
@@ -50,12 +52,18 @@ void UEJGrabComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 	previousRotation_rightCon = currentRotation_rightCon;
 	currentRotation_rightCon = player->rightHand->GetComponentQuat();
 
+
+	if(bMaking) makeBigger();
 }
 
 void UEJGrabComponent::SetupPlayerInputComponent(UEnhancedInputComponent* PlayerInputComponent, TArray<class UInputAction*> inputs)
 {
+
 	PlayerInputComponent->BindAction(inputs[1], ETriggerEvent::Started, this, &UEJGrabComponent::GrabObject);
 	PlayerInputComponent->BindAction(inputs[1], ETriggerEvent::Completed, this, &UEJGrabComponent::ReleaseObject);
+
+	PlayerInputComponent->BindAction(inputs[0], ETriggerEvent::Started, this, &UEJGrabComponent::makeBigger);
+	PlayerInputComponent->BindAction(inputs[0], ETriggerEvent::Completed, this, &UEJGrabComponent::makeStop);
 
 }
 
@@ -109,4 +117,30 @@ void UEJGrabComponent::ReleaseObject()
 	}
 	
 }
+
+void UEJGrabComponent::makeBigger()
+{
+	bMaking = true;
+
+	UE_LOG(LogTemp, Warning, TEXT("777"));
+
+	cottonCandy = Cast<ACottonCandyActor>(UGameplayStatics::GetActorOfClass(GetWorld(), ACottonCandyActor::StaticClass()));
+
+
+	radiusBigger += FVector(0.001f);
+	if (cottonCandy != nullptr) {
+		cottonCandy->compMesh->SetRelativeScale3D(radiusBigger);
+
+	}
+
+}
+
+void UEJGrabComponent::makeStop()
+{
+	bMaking = false;
+
+	UE_LOG(LogTemp, Warning, TEXT("888"));
+
+}
+
 

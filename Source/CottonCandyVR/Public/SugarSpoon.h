@@ -30,7 +30,8 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "MySettings")
 	class UStaticMeshComponent* meshComp;
 
-
+	UPROPERTY(VisibleAnywhere, Category = "MySettings")
+	class USceneComponent* sugarScene;
 	
 
 	UPROPERTY(EditAnywhere, Category = "MySettings")
@@ -39,6 +40,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "MySettings")
 	FRotator offsetRotation;
 
+public:
 	void OnGrabbed(class USkeletalMeshComponent* handMeshComp);
 	void OnReleased(FVector deltaDir);
 
