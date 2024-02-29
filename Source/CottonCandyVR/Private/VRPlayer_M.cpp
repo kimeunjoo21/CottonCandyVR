@@ -51,7 +51,7 @@ AVRPlayer_M::AVRPlayer_M()
 	grabComp = CreateDefaultSubobject<UGrabComponent>(TEXT("Grab Component"));
 
 	lineFX = CreateDefaultSubobject<UNiagaraComponent>(TEXT("Line Effect"));
-	lineFX->SetupAttachment(rightMotion);
+	lineFX->SetupAttachment(leftMotion);
 	lineFX->SetVisibility(false);
 
 
@@ -91,11 +91,11 @@ void AVRPlayer_M::Tick(float DeltaTime)
 
 	if (bIsShowLine && this != nullptr)
 	{
-		UMotionControllerComponent* rightMotionCon = this->rightMotion;
-		if (rightMotionCon != nullptr)
+		UMotionControllerComponent* leftMotionCon = this->leftMotion;
+		if (leftMotionCon != nullptr)
 		{	
-			FVector handLocation = rightMotionCon->GetComponentLocation();
-			FVector direction = rightMotionCon->GetForwardVector();
+			FVector handLocation = leftMotionCon->GetComponentLocation();
+			FVector direction = leftMotionCon->GetForwardVector();
 
 			// 베지어 곡선 방식으로 그린다.
 			// DrawBezierLine(rightMotionCon);
