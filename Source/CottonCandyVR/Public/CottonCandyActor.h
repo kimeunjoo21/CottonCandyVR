@@ -23,7 +23,6 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	void SetupPlayerInputComponent(class UEnhancedInputComponent* PlayerInputComponent, TArray<class UInputAction*> inputs);
 
 
 	UPROPERTY(EditAnywhere)
@@ -32,16 +31,9 @@ public:
 	UPROPERTY(EditAnywhere)
 	class UStaticMeshComponent* compMesh;
 
-	UPROPERTY(EditAnywhere)
-	class AEJVRPlayer* player;
-
 	UPROPERTY(VisibleAnywhere, Category = "MySettings")
 	class ASugarSpoon* spoon;
 
-	FVector radiusBigger = FVector(0.1f);
-
-	FQuat currentRotation_rightCon;
-	FQuat previousRotation_rightCon;
 
 
 };

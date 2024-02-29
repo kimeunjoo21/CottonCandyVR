@@ -2,11 +2,13 @@
 
 
 #include "CottonCandyActor.h"
-#include "NiagaraComponent.h"
+#include "InputAction.h"
+#include "EnhancedInputComponent.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Components/SphereComponent.h>
 #include <../../../../../../../Source/Runtime/Engine/Classes/Components/StaticMeshComponent.h>
 #include "SugarSpoon.h"
 #include <Kismet/GameplayStatics.h>
+#include "EJVRPlayer.h"
 
 
 // Sets default values
@@ -29,7 +31,7 @@ ACottonCandyActor::ACottonCandyActor()
 	compMesh->SetCollisionProfileName(TEXT("NoCollision"));
 
 	spoon  = Cast<ASugarSpoon>(UGameplayStatics::GetActorOfClass(GetWorld(), ASugarSpoon::StaticClass()));
-	
+
 
 }
 
@@ -38,7 +40,6 @@ void ACottonCandyActor::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//player = Cast<AEJVRPlayer>(UGameplayStatics::GetPlayerPawn(GetWorld(),0));
 	compSphere->SetSimulatePhysics(false);
 	FAttachmentTransformRules attachRules = FAttachmentTransformRules::SnapToTargetNotIncludingScale;
 
@@ -59,18 +60,7 @@ void ACottonCandyActor::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 
-	previousRotation_rightCon = currentRotation_rightCon;
-	//currentRotation_rightCon = player->rightHand->GetComponentQuat();
-
-
-
-	radiusBigger += FVector(0.001f);
-	UE_LOG(LogTemp,Warning,TEXT("%f"),radiusBigger.Length());
-	compMesh->SetRelativeScale3D(radiusBigger);
 }
 
-void ACottonCandyActor::SetupPlayerInputComponent(class UEnhancedInputComponent* PlayerInputComponent, TArray<class UInputAction*> inputs)
-{
 
-}
 

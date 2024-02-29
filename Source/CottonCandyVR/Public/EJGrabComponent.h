@@ -30,18 +30,24 @@ private:
 
 	class AEJVRPlayer* player;
 	class ASugarSpoon* currentObj;
+	class ACottonCandyActor* cottonCandy;
 	FVector currentLocation_rightCon;
 	FVector previousLocation_rightCon;
 	FQuat currentRotation_rightCon;
 	FQuat previousRotation_rightCon;
 
+	FVector radiusBigger = FVector(0.1f);
+
 
 	UPROPERTY(EditAnywhere, Category = "MySettings")
 	float throwPower = 500;
 
-
+	bool bMaking = false;
 
 	void GrabObject();
 	void ReleaseObject();
+
+	void makeBigger();
+	void makeStop();
 
 };
