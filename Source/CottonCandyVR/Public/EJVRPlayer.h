@@ -46,6 +46,9 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "MySettings|Components")
 	class USkeletalMeshComponent* rightHand;
 
+	UPROPERTY(VisibleAnywhere, Category = "MySettings|Components")
+	class UTextRenderComponent* rightLog;
+
 
 	UPROPERTY(VisibleAnywhere, Category = "MySettings|Components")
 	class UEJGrabComponent* grabComp;
@@ -85,5 +88,5 @@ private:
 // 	void LeftIndexTriggerValue(const FInputActionValue& val);
 // 	void LeftThumbupTouchValue(const FInputActionValue& val);
 
-
+	void LeftYPress(const FInputActionValue& val);
 };

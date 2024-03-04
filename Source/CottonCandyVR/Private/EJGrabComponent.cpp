@@ -9,6 +9,7 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "CottonCandyActor.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/GameplayStatics.h>
+#include "Components/TextRenderComponent.h"
 
 
 // Sets default values for this component's properties
@@ -91,6 +92,7 @@ void UEJGrabComponent::GrabObject()
 			if (currentObj != nullptr)
 			{
 				currentObj->OnGrabbed(player->rightHand);
+				player->rightLog->SetText(FText::FromString(FString::Printf(TEXT("Touch Sugar"))));
 
 
 			}
@@ -120,17 +122,37 @@ void UEJGrabComponent::ReleaseObject()
 
 void UEJGrabComponent::makeBigger()
 {
+	//index press 될 때
 	bMaking = true;
 
-	UE_LOG(LogTemp, Warning, TEXT("777"));
+	//UE_LOG(LogTemp, Warning, TEXT("777"));
 
 	cottonCandy = Cast<ACottonCandyActor>(UGameplayStatics::GetActorOfClass(GetWorld(), ACottonCandyActor::StaticClass()));
 
 
-	radiusBigger += FVector(0.001f);
-	if (cottonCandy != nullptr) {
-		cottonCandy->compMesh->SetRelativeScale3D(radiusBigger);
+	// 오른손 콘트롤러의 위치 변화량을 계산한다.
+	FVector deltaDirection = currentLocation_rightCon - previousLocation_rightCon;
 
+	//UE_LOG(LogTemp,Warning, TEXT("%f"), deltaDirection.Length());
+
+	// 손 흔들 때 커지게
+	if (deltaDirection.Length() > 0.6) {
+
+		if(radiusBigger.Length() < 0.7) 
+		{
+			radiusBigger += FVector(0.001f);
+			player->rightLog->SetText(FText::FromString(FString::Printf(TEXT("Hand Rolling"))));
+		}
+		else {
+			//radiusBigger =FVector(0.7f);
+			player->rightLog->SetText(FText::FromString(FString::Printf(TEXT("Completed"))));
+		}
+
+		if (cottonCandy != nullptr) {
+			cottonCandy->compMesh->SetRelativeScale3D(radiusBigger);
+			UE_LOG(LogTemp, Warning, TEXT("radius : %f"), radiusBigger.Length());
+
+		}
 	}
 
 }
@@ -139,7 +161,7 @@ void UEJGrabComponent::makeStop()
 {
 	bMaking = false;
 
-	UE_LOG(LogTemp, Warning, TEXT("888"));
+	UE_LOG(LogTemp, Warning, TEXT("stop making"));
 
 }
 

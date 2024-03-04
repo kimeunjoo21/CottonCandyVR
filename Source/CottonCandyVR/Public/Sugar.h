@@ -37,7 +37,11 @@ public:
 	UPROPERTY(EditAnywhere)
 	AActor* maker;
 
-	float ratio = 0;
+	FVector up;
+
+	float ratioU = 0;
+	float ratioS = 0;
+	float ratioD = 0;
 
 	bool bMoveStart = false;
 

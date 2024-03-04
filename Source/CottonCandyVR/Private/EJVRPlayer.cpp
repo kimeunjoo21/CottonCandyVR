@@ -43,6 +43,16 @@ AEJVRPlayer::AEJVRPlayer()
 	rightHand->SetupAttachment(rightMotion);
 	rightHand->SetRelativeRotation(FRotator(0, 0, 90));
 
+	rightLog = CreateDefaultSubobject<UTextRenderComponent>(TEXT("Right Log"));
+	rightLog->SetupAttachment(rightMotion);
+	rightLog->SetRelativeLocation(FVector(15, 0, 0));
+	rightLog->SetRelativeRotation(FRotator(90, 180, 0));
+	rightLog->SetHorizontalAlignment(EHTA_Center);
+	rightLog->SetVerticalAlignment(EVRTA_TextCenter);
+	rightLog->SetWorldSize(15);
+	rightLog->SetTextRenderColor(FColor::Yellow);
+
+
 
 	bUseControllerRotationYaw = true;
 	bUseControllerRotationPitch = false;
@@ -93,6 +103,8 @@ void AEJVRPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		enhancedInputComponent->BindAction(vrInputs[2], ETriggerEvent::Completed, this, &AEJVRPlayer::Move);
 		enhancedInputComponent->BindAction(vrInputs[3], ETriggerEvent::Triggered, this, &AEJVRPlayer::Rotate);
 		enhancedInputComponent->BindAction(vrInputs[3], ETriggerEvent::Completed, this, &AEJVRPlayer::Rotate);
+		enhancedInputComponent->BindAction(vrInputs[4], ETriggerEvent::Completed, this, &AEJVRPlayer::LeftYPress);
+
 
 		grabComp->SetupPlayerInputComponent(enhancedInputComponent, vrInputs);
 
@@ -121,5 +133,11 @@ void AEJVRPlayer::Rotate(const FInputActionValue& val)
 	// 입력받은 방향으로 회전한다.
 	AddControllerYawInput(dir.X);
 
+}
+
+//헤드셋 방향 재정렬 함수
+void AEJVRPlayer::LeftYPress(const FInputActionValue& val)
+{
+	UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
 }
 
