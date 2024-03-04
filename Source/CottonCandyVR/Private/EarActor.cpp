@@ -1,22 +1,16 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "CottonCandyActor.h"
-#include "InputAction.h"
-#include "EnhancedInputComponent.h"
+#include "EarActor.h"
 #include <Components/SphereComponent.h>
 #include <Components/StaticMeshComponent.h>
-#include "SugarSpoon.h"
-#include <Kismet/GameplayStatics.h>
-#include "EJVRPlayer.h"
-
+#include "CottonCandyActor.h"
 
 // Sets default values
-ACottonCandyActor::ACottonCandyActor()
+AEarActor::AEarActor()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
 
 	// �浹ü
 	compSphere = CreateDefaultSubobject<USphereComponent>(TEXT("SPHERE"));
@@ -30,37 +24,19 @@ ACottonCandyActor::ACottonCandyActor()
 	compMesh->SetRelativeScale3D(FVector(0.1f));
 	compMesh->SetCollisionProfileName(TEXT("NoCollision"));
 
-	spoon  = Cast<ASugarSpoon>(UGameplayStatics::GetActorOfClass(GetWorld(), ASugarSpoon::StaticClass()));
-
-
 }
 
 // Called when the game starts or when spawned
-void ACottonCandyActor::BeginPlay()
+void AEarActor::BeginPlay()
 {
 	Super::BeginPlay();
-
-	compSphere->SetSimulatePhysics(false);
-	FAttachmentTransformRules attachRules = FAttachmentTransformRules::SnapToTargetNotIncludingScale;
-
-
-
-	if (spoon != nullptr) {
-		
-		//ASugarSpoon* bar = Cast<ASugarSpoon>(sugarSpoon);
-		AttachToComponent(spoon->sugarScene, attachRules);
-		//AttachToActor(bar, attachRules);
-	}
 	
 }
 
 // Called every frame
-void ACottonCandyActor::Tick(float DeltaTime)
+void AEarActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-
 }
-
-
 

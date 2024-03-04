@@ -39,6 +39,8 @@ void ASugar::BeginPlay()
 	sphereComp->OnComponentBeginOverlap.AddDynamic(this, &ASugar::OnScoop);
 
 	maker = UGameplayStatics::GetActorOfClass(GetWorld(), ACottonCandyMaker::StaticClass());
+
+	up = GetActorLocation() + FVector(0, 0, 50);
 }
 
 // Called every frame
@@ -65,7 +67,7 @@ void ASugar::OnScoop(UPrimitiveComponent* OverlappedComponent, AActor* OtherActo
 {
 	FAttachmentTransformRules attachRules = FAttachmentTransformRules::SnapToTargetNotIncludingScale;
 
-	UE_LOG(LogTemp,Warning,TEXT("555"));
+	//UE_LOG(LogTemp,Warning,TEXT("555"));
 	sphereComp->SetSimulatePhysics(false);
 
 	bMoveStart = true;
@@ -75,13 +77,41 @@ void ASugar::OnScoop(UPrimitiveComponent* OverlappedComponent, AActor* OtherActo
 
 void ASugar::Move()
 {
-	FVector floating = maker->GetActorLocation() + FVector(0, 0, 15);
 	
-	ratio += GetWorld()->GetDeltaSeconds() * 0.1;
-	if (ratio > 1) ratio = 1;
+	if (ratioU < 1) {
+		ratioU += GetWorld()->GetDeltaSeconds() * 0.8;
+		if (ratioU >= 1) ratioU = 1;
+		FVector moveUp = FMath::Lerp(GetActorLocation(), up, ratioU);
+		SetActorLocation(moveUp);
 
-	FVector moveToMaker = FMath::Lerp(GetActorLocation(), floating, ratio);
-	SetActorLocation(moveToMaker);
+		//UE_LOG(LogTemp,Warning,TEXT("ratioU : %f"), ratioU);
+	}
+
+	
+	if (ratioU == 1 && ratioS < 1) {
+		//UE_LOG(LogTemp, Warning, TEXT("ratioS : %f"), ratioS);
+
+		FVector straight = maker->GetActorLocation() + FVector(0, 0, 50);
+		ratioS += GetWorld()->GetDeltaSeconds() * 0.5;
+		if (ratioS >= 1) ratioS = 1;
+		FVector moveStraigh = FMath::Lerp(GetActorLocation(), straight, ratioS);
+		SetActorLocation(moveStraigh);
+
+	}
+	
+	if (ratioS == 1) {
+		
+		//UE_LOG(LogTemp, Warning, TEXT("ratioD : %f"), ratioD);
+
+
+		FVector down = maker->GetActorLocation() + FVector(0, 0, 15);
+		ratioD += GetWorld()->GetDeltaSeconds() * 0.8;
+		if (ratioD > 1) ratioD = 1;
+		FVector moveDown = FMath::Lerp(GetActorLocation(), down, ratioD);
+		SetActorLocation(moveDown);
+
+	}
+	
 
 }
 
