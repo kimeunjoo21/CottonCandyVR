@@ -29,7 +29,7 @@ public:
 	class UBoxComponent* boxComp;
 
 	UPROPERTY(VisibleAnywhere, Category = "MySettings")
-	class UStaticMeshComponent* meshComp;
+	class USkeletalMeshComponent* skeletalMeshComp;
 
 	UPROPERTY(EditAnywhere, Category = "MySettings")
 	TSubclassOf<class ACottonCandyActor> cottonCandyActor;

@@ -30,4 +30,10 @@ public:
 	UPROPERTY(EditAnywhere)
 	class UStaticMeshComponent* compMesh;
 
+	UPROPERTY(VisibleAnywhere, Category = "MySettings")
+	class ASugarSpoon* spoon;
+
+
+	void OnGrabbed(USkeletalMeshComponent* handMeshComp);
+	void OnReleased(FVector deltaDir);
 };

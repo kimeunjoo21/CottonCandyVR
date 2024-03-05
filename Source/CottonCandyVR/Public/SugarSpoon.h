@@ -33,6 +33,9 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "MySettings")
 	class USceneComponent* sugarScene;
 	
+	UPROPERTY(VisibleAnywhere, Category = "MySettings")
+	class USceneComponent* earScene;
+
 
 	UPROPERTY(EditAnywhere, Category = "MySettings")
 	FVector offsetLocation;

@@ -16,13 +16,16 @@ ACottonCandyMaker::ACottonCandyMaker()
 
 	boxComp = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Component"));
 	SetRootComponent(boxComp);
-	boxComp->SetBoxExtent(FVector(50));
+	boxComp->SetBoxExtent(FVector(45,65,40));
+	
 	boxComp->SetCollisionProfileName(FName("CottonCandyMaker"));
 
 
-	meshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Static Mesh Component"));
-	meshComp->SetupAttachment(RootComponent);
-	meshComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	skeletalMeshComp = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Skeletal Mesh Component"));
+	skeletalMeshComp->SetupAttachment(RootComponent);
+	skeletalMeshComp->SetRelativeScale3D(FVector(0.5f));
+	skeletalMeshComp->SetRelativeLocation(FVector(0, 0, -70));
+	skeletalMeshComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	ConstructorHelpers::FClassFinder<ACottonCandyActor> tempCandy(TEXT("/Script/Engine.Blueprint'/Game/KEJ/BluePrints/BP_CottonCandyActor.BP_CottonCandyActor_C'"));
 	if (tempCandy.Succeeded())

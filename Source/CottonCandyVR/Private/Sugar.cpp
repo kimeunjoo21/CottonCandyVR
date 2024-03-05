@@ -92,7 +92,7 @@ void ASugar::Move()
 		//UE_LOG(LogTemp, Warning, TEXT("ratioS : %f"), ratioS);
 
 		FVector straight = maker->GetActorLocation() + FVector(0, 0, 50);
-		ratioS += GetWorld()->GetDeltaSeconds() * 0.5;
+		ratioS += GetWorld()->GetDeltaSeconds() * 0.4;
 		if (ratioS >= 1) ratioS = 1;
 		FVector moveStraigh = FMath::Lerp(GetActorLocation(), straight, ratioS);
 		SetActorLocation(moveStraigh);

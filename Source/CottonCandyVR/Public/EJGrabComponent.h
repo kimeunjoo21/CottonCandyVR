@@ -31,6 +31,7 @@ private:
 	class AEJVRPlayer* player;
 	class ASugarSpoon* currentObj;
 	class ACottonCandyActor* cottonCandy;
+	class AEarActor* pickUpEar;
 	FVector currentLocation_rightCon;
 	FVector previousLocation_rightCon;
 	FQuat currentRotation_rightCon;
@@ -49,5 +50,8 @@ private:
 
 	void makeBigger();
 	void makeStop();
+
+	void GrabEar();
+	void ReleaseEar();
 
 };

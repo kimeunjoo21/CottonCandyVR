@@ -6,10 +6,12 @@
 #include "EnhancedInputComponent.h"
 #include "EJVRPlayer.h"
 #include "SugarSpoon.h"
+#include "EarActor.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "CottonCandyActor.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Kismet/GameplayStatics.h>
 #include "Components/TextRenderComponent.h"
+
 
 
 // Sets default values for this component's properties
@@ -31,6 +33,8 @@ void UEJGrabComponent::BeginPlay()
 	// ...
 	
 	player = GetOwner<AEJVRPlayer>();
+
+	pickUpEar = nullptr;
 }
 
 
@@ -66,6 +70,10 @@ void UEJGrabComponent::SetupPlayerInputComponent(UEnhancedInputComponent* Player
 	PlayerInputComponent->BindAction(inputs[0], ETriggerEvent::Started, this, &UEJGrabComponent::makeBigger);
 	PlayerInputComponent->BindAction(inputs[0], ETriggerEvent::Completed, this, &UEJGrabComponent::makeStop);
 
+	PlayerInputComponent->BindAction(inputs[5], ETriggerEvent::Started, this, &UEJGrabComponent::GrabEar);
+	PlayerInputComponent->BindAction(inputs[5], ETriggerEvent::Completed, this, &UEJGrabComponent::ReleaseEar);
+
+
 }
 
 void UEJGrabComponent::GrabObject()
@@ -86,6 +94,7 @@ void UEJGrabComponent::GrabObject()
 
 		if (bChecked)
 		{
+			
 			currentObj = Cast<ASugarSpoon>(hitInfo.GetActor());
 			UE_LOG(LogTemp, Warning, TEXT("%s(%d) - Hit Actor: %s"), *FString(__FUNCTION__), __LINE__, *hitInfo.GetActor()->GetActorNameOrLabel());
 
@@ -141,11 +150,11 @@ void UEJGrabComponent::makeBigger()
 		if(radiusBigger.Length() < 0.7) 
 		{
 			radiusBigger += FVector(0.001f);
-			player->rightLog->SetText(FText::FromString(FString::Printf(TEXT("Hand Rolling"))));
+			player->rightLog->SetText(FText::FromString(FString::Printf(TEXT("Continue Stiring"))));
 		}
 		else {
 			//radiusBigger =FVector(0.7f);
-			player->rightLog->SetText(FText::FromString(FString::Printf(TEXT("Completed"))));
+			player->rightLog->SetText(FText::FromString(FString::Printf(TEXT("Completed! Make Ear"))));
 		}
 
 		if (cottonCandy != nullptr) {
@@ -165,4 +174,59 @@ void UEJGrabComponent::makeStop()
 
 }
 
+void UEJGrabComponent::GrabEar()
+{
+	
+
+	if (pickUpEar == nullptr) {
+
+		// 1. SweepTrace를 이용한 방식
+
+		FHitResult hitInfo;
+		FVector originLocForEar = player->leftHand->GetComponentLocation();
+		FCollisionObjectQueryParams objectParams;
+		objectParams.AddObjectTypesToQuery(ECollisionChannel::ECC_GameTraceChannel2);
+
+		FCollisionQueryParams params;
+		params.AddIgnoredActor(player);
+
+		bool bEarChecked = GetWorld()->SweepSingleByObjectType(hitInfo, originLocForEar, originLocForEar, FQuat::Identity, objectParams, FCollisionShape::MakeSphere(30), params);
+		DrawDebugSphere(GetWorld(), player->leftHand->GetComponentLocation(), 20, 30, FColor::Green, false, 0.5f, 0, 0.2f);
+
+
+		if (bEarChecked)
+		{
+
+			pickUpEar = Cast<AEarActor>(hitInfo.GetActor());
+			UE_LOG(LogTemp, Warning, TEXT("%s(%d) - Hit Actor: %s"), *FString(__FUNCTION__), __LINE__, *hitInfo.GetActor()->GetActorNameOrLabel());
+
+			if (pickUpEar != nullptr)
+			{
+				pickUpEar->OnGrabbed(player->leftHand);
+				
+
+			}
+		}
+	}
+}
+
+void UEJGrabComponent::ReleaseEar()
+{
+	// 현재 쥐고있는 물체가 있는지 확인한다.
+	if (pickUpEar != nullptr) {
+
+		//오른손 컨트롤러의 위치 변화량을 계산한다.
+		//FVector deltaDirection = currentLocation_rightCon - previousLocation_rightCon;
+
+		//오른손 콘트롤러의 회전 변화량을 계산한다.
+		//FQuat deltaRotation = currentRotation_rightCon - previousRotation_rightCon;
+		//FQuat deltaRotation = currentRotation_rightCon * previousRotation_rightCon.Inverse();
+
+		pickUpEar->OnReleased(currentObj->earScene->GetComponentLocation());
+		pickUpEar = nullptr;
+
+
+	}
+
+}
 

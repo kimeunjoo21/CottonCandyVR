@@ -27,11 +27,11 @@ ACottonCandyActor::ACottonCandyActor()
 	// ¸ð¾ç
 	compMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MESH"));
 	compMesh->SetupAttachment(RootComponent);
-	compMesh->SetRelativeScale3D(FVector(0.1f));
+	compMesh->SetRelativeScale3D(FVector(0.03f));
+	//compMesh->SetRelativeLocation(FVector(0.087f,-4.21f,-0.7157));
 	compMesh->SetCollisionProfileName(TEXT("NoCollision"));
 
 	spoon  = Cast<ASugarSpoon>(UGameplayStatics::GetActorOfClass(GetWorld(), ASugarSpoon::StaticClass()));
-
 
 }
 

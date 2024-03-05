@@ -7,6 +7,7 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Engine/Scene.h"
 #include <../../../../../../../Source/Runtime/Engine/Classes/Components/SceneComponent.h>
+#include <../../../../../../../Source/Runtime/Engine/Classes/Engine/Scene.h>
 
 // Sets default values
 ASugarSpoon::ASugarSpoon()
@@ -19,7 +20,7 @@ ASugarSpoon::ASugarSpoon()
 	//boxComp->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	boxComp->SetCollisionProfileName(FName("PickUpActor"));
 	boxComp->SetBoxExtent(FVector(50));
-	boxComp->SetWorldScale3D(FVector(0.05f, 0.05f, 0.4f));
+	boxComp->SetWorldScale3D(FVector(0.05f, 0.05f, 0.5f));
 	boxComp->SetSimulatePhysics(true);
 	boxComp->SetEnableGravity(true);
 
@@ -31,6 +32,10 @@ ASugarSpoon::ASugarSpoon()
 	sugarScene = CreateDefaultSubobject<USceneComponent>(TEXT("Spoon Tip"));
 	sugarScene->SetupAttachment(meshComp);
 	sugarScene->SetRelativeLocation(FVector(0,0,51));
+
+	earScene = CreateDefaultSubobject<USceneComponent>(TEXT("Ear Position"));
+	earScene->SetupAttachment(meshComp);
+	earScene->SetRelativeLocation(FVector(25, 0, 78));
 
 }
 
@@ -51,7 +56,7 @@ void ASugarSpoon::Tick(float DeltaTime)
 
 void ASugarSpoon::OnGrabbed(USkeletalMeshComponent* handMeshComp)
 {
-	UE_LOG(LogTemp, Warning, TEXT("OnGravved"));
+	UE_LOG(LogTemp, Warning, TEXT("OnGrabbed"));
 	boxComp->SetSimulatePhysics(false);
 	// 1. 잡을 당시의 간격 위치 값(월드 좌표 기준)을 그대로 유지하면서 붙이도록 설정한다.
 	FAttachmentTransformRules attachRules = FAttachmentTransformRules::KeepWorldTransform;
