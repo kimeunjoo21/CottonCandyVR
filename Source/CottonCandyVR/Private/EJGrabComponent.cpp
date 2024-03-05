@@ -90,7 +90,7 @@ void UEJGrabComponent::GrabObject()
 		params.AddIgnoredActor(player);
 
 		bool bChecked = GetWorld()->SweepSingleByObjectType(hitInfo, originLoc, originLoc, FQuat::Identity, objectParams, FCollisionShape::MakeSphere(30), params);
-		DrawDebugSphere(GetWorld(), player->rightHand->GetComponentLocation(), 20, 30, FColor::Green, false, 0.5f, 0, 0.2f);
+		//DrawDebugSphere(GetWorld(), player->rightHand->GetComponentLocation(), 20, 30, FColor::Green, false, 0.5f, 0, 0.2f);
 
 		if (bChecked)
 		{
@@ -151,6 +151,7 @@ void UEJGrabComponent::makeBigger()
 		{
 			radiusBigger += FVector(0.001f);
 			player->rightLog->SetText(FText::FromString(FString::Printf(TEXT("Continue Stiring"))));
+
 		}
 		else {
 			//radiusBigger =FVector(0.7f);
@@ -191,7 +192,7 @@ void UEJGrabComponent::GrabEar()
 		params.AddIgnoredActor(player);
 
 		bool bEarChecked = GetWorld()->SweepSingleByObjectType(hitInfo, originLocForEar, originLocForEar, FQuat::Identity, objectParams, FCollisionShape::MakeSphere(30), params);
-		DrawDebugSphere(GetWorld(), player->leftHand->GetComponentLocation(), 20, 30, FColor::Green, false, 0.5f, 0, 0.2f);
+		// DrawDebugSphere(GetWorld(), player->leftHand->GetComponentLocation(), 20, 30, FColor::Green, false, 0.5f, 0, 0.2f);
 
 
 		if (bEarChecked)

@@ -48,7 +48,9 @@ private:
 	void GrabObject();
 	void ReleaseObject();
 
+	UFUNCTION(BlueprintCallable)
 	void makeBigger();
+
 	void makeStop();
 
 	void GrabEar();
