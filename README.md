@@ -1,9 +1,9 @@
-#CottonCandyVR
+# CottonCandyVR
 
-##팀
+## 팀
 
-##조작
+## 조작
 
-##동작
+## 동작
 
-##결과
+## 결과
